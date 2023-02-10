@@ -88,9 +88,9 @@ type ConfigQemu struct {
 
 // CreateVm - Tell Proxmox API to make the VM
 func (config ConfigQemu) CreateVm(vmr *VmRef, client *Client) (err error) {
-	if config.HasCloudInit() {
-		return fmt.Errorf("cloud-init parameters only supported on clones or updates")
-	}
+	//if config.HasCloudInit() {
+	//	return fmt.Errorf("cloud-init parameters only supported on clones or updates")
+	//}
 	vmr.SetVmType("qemu")
 
 	params := map[string]interface{}{
@@ -155,6 +155,11 @@ func (config ConfigQemu) CreateVm(vmr *VmRef, client *Client) (err error) {
 
 	if config.Scsihw != "" {
 		params["scsihw"] = config.Scsihw
+	}
+
+	if config.CIcustom != "" {
+		fmt.Println("doot")
+		params["cicustom"] = config.CIcustom
 	}
 
 	err = config.CreateQemuMachineParam(params)
